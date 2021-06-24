@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace FluencePrototype\Bean;
 
+use RedBeanPHP\OODBBean;
+use RedBeanPHP\R;
+
 /**
  * Trait Bean
  * @package FluencePrototype\Bean
@@ -11,7 +14,7 @@ namespace FluencePrototype\Bean;
 trait Bean
 {
 
-    private ?int $id;
+    private ?int $id = null;
     private DateTime $created;
     private ?DateTime $updated;
     private ?DateTime $deleted;
