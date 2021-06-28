@@ -12,12 +12,12 @@ interface iBean
     /**
      * @return OODBBean
      */
-    function toBean(): OODBBean;
+    public function toBean(): OODBBean;
 
     /**
      * @param OODBBean $bean
      * @return static
      */
-    static function fromBean(OODBBean $bean): static;
+    public static function fromBean(OODBBean $bean): static;
 
 }
