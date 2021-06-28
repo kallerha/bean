@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluencePrototype\Bean;
 
+use DateTime;
 use RedBeanPHP\OODBBean;
 use RedBeanPHP\R;
 
