@@ -63,7 +63,7 @@ trait Bean
     /**
      * @param OODBBean $bean
      */
-    public function setBeanDetails(OODBBean $bean)
+    public function setBeanDetails(OODBBean $bean): void
     {
         $this->id = (int)$bean->id;
         $this->created = DateTime::createFromFormat('U', $bean->created);
