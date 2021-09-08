@@ -29,6 +29,14 @@ trait Bean
     }
 
     /**
+     * @param int|null $id
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return DateTime
      */
     public function getCreated(): DateTime
@@ -91,6 +99,13 @@ trait Bean
         }
 
         return $bean;
+    }
+
+    public static function store(iBean &$bean): void
+    {
+        if ($id = R::store(bean: $bean)) {
+            $bean->setId($id);
+        }
     }
 
 }
