@@ -104,7 +104,9 @@ trait Bean
     public static function store(iBean &$bean): void
     {
         if ($id = R::store(bean: $bean->toBean())) {
-            $bean->setId($id);
+            if ($bean->getId() === null) {
+                $bean->setId((int)$id);
+            }
         }
     }
 
