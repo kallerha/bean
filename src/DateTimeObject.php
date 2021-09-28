@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Authentication\Time;
+namespace FluencePrototype\Bean;
 
 use DateTime;
 use DateTimeZone;
