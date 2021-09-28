@@ -17,9 +17,9 @@ trait Bean
 {
 
     private ?int $id = null;
-    private DateTime $created;
-    private ?DateTime $updated;
-    private ?DateTime $deleted;
+    private DateTimeObject $created;
+    private ?DateTimeObject $updated;
+    private ?DateTimeObject $deleted;
 
     /**
      * @return int|null
@@ -38,25 +38,25 @@ trait Bean
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeObject
      */
-    public function getCreated(): DateTime
+    public function getCreated(): DateTimeObject
     {
         return $this->created;
     }
 
     /**
-     * @return DateTime|null
+     * @return DateTimeObject|null
      */
-    public function getUpdated(): ?DateTime
+    public function getUpdated(): ?DateTimeObject
     {
         return $this->updated;
     }
 
     /**
-     * @return DateTime|null
+     * @return DateTimeObject|null
      */
-    public function getDeleted(): ?DateTime
+    public function getDeleted(): ?DateTimeObject
     {
         return $this->deleted;
     }
@@ -75,9 +75,9 @@ trait Bean
     public function setBeanDetails(OODBBean $bean): void
     {
         $this->id = (int)$bean->id;
-        $this->created = DateTime::createFromFormat('U', $bean->created);
-        $this->updated = $bean->updated ? DateTime::createFromFormat('U', $bean->updated) : null;
-        $this->deleted = $bean->deleted ? DateTime::createFromFormat('U', $bean->deleted) : null;
+        $this->created = DateTimeObject::createFromFormat('U', $bean->created);
+        $this->updated = $bean->updated ? DateTimeObject::createFromFormat('U', $bean->updated) : null;
+        $this->deleted = $bean->deleted ? DateTimeObject::createFromFormat('U', $bean->deleted) : null;
     }
 
     /**
