@@ -16,8 +16,8 @@ interface iBean
 
     /**
      * @param OODBBean $bean
-     * @return iBean
+     * @return static
      */
-    public static function fromBean(OODBBean $bean): iBean;
+    public static function fromBean(OODBBean $bean): static;
 
 }
