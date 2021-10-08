@@ -15,15 +15,15 @@ use RedBeanPHP\RedException\SQL;
 trait Bean
 {
 
-    private ?int $id = null;
+    private null|int $id = null;
     private DateTimeObject $created;
-    private ?DateTimeObject $updated;
-    private ?DateTimeObject $deleted;
+    private null|DateTimeObject $updated;
+    private null|DateTimeObject $deleted;
 
     /**
      * @return int|null
      */
-    public function getId(): ?int
+    public function getId(): null|int
     {
         return $this->id;
     }
@@ -31,7 +31,7 @@ trait Bean
     /**
      * @param int|null $id
      */
-    public function setId(?int $id): void
+    public function setId(null|int $id): void
     {
         $this->id = $id;
     }
@@ -47,7 +47,7 @@ trait Bean
     /**
      * @return DateTimeObject|null
      */
-    public function getUpdated(): ?DateTimeObject
+    public function getUpdated(): null|DateTimeObject
     {
         return $this->updated;
     }
@@ -55,7 +55,7 @@ trait Bean
     /**
      * @return DateTimeObject|null
      */
-    public function getDeleted(): ?DateTimeObject
+    public function getDeleted(): null|DateTimeObject
     {
         return $this->deleted;
     }
@@ -65,7 +65,7 @@ trait Bean
      */
     public function setDeleted(): void
     {
-        $this->deleted = time();
+        $this->deleted = DateTimeObject::createFromFormat('U', time());
     }
 
     /**
@@ -85,9 +85,6 @@ trait Bean
      */
     protected function findOrDispense(string $className): OODBBean
     {
-        /** @var OODBBean $bean */
-        $bean;
-
         if (!$this->id) {
             $bean = R::dispense(typeOrBeanArray: $className);
             $bean->created = time();
