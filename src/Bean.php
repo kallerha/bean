@@ -90,10 +90,12 @@ trait Bean
             $bean->created = time();
             $bean->updated = null;
             $bean->deleted = null;
-        } else {
-            $bean = R::findOne(type: $className, sql: '`id` = ?', bindings: [$this->id]);
-            $bean->updated = time();
+
+            return $bean;
         }
+
+        $bean = R::findOne(type: $className, sql: '`id` = ?', bindings: [$this->id]);
+        $bean->updated = time();
 
         return $bean;
     }
