@@ -100,6 +100,9 @@ trait Bean
         return $bean;
     }
 
+    /**
+     * @param iBean $bean
+     */
     public static function store(iBean &$bean): void
     {
         try {
@@ -110,6 +113,16 @@ trait Bean
             }
         } catch (SQL) {
         }
+    }
+
+    /**
+     * @param iBean $bean
+     */
+    public static function trash(iBean $bean): void
+    {
+        R::trash($bean->toBean());
+
+        $bean = null;
     }
 
 }
