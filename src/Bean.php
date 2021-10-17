@@ -118,7 +118,7 @@ trait Bean
     /**
      * @param iBean $bean
      */
-    public static function trash(iBean $bean): void
+    public static function trash(iBean &$bean): void
     {
         R::trash($bean->toBean());
 
