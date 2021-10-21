@@ -122,13 +122,13 @@ trait Bean
      * @param array $bindings
      * @return OODBBean|null
      */
-    public static function getOneAndConvertToBean(string $className, string $sql, array $bindings = []): object|null
+    public static function getOne(string $className, string $sql, array $bindings = []): object|null
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return null;
         }
 
-        if (!$row = Bean::getOne(sql: $sql, bindings: $bindings)) {
+        if (!$row = R::getRow(sql: $sql, bindings: $bindings)) {
             return null;
         }
 
@@ -146,13 +146,13 @@ trait Bean
      * @param array $bindings
      * @return array<object>
      */
-    public static function getAllAndConvertToBeans(string $className, string $sql, array $bindings = []): array
+    public static function getAll(string $className, string $sql, array $bindings = []): array
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return [];
         }
 
-        if (!$rows = Bean::getAll(sql: $sql, bindings: $bindings)) {
+        if (!$rows = R::getAll(sql: $sql, bindings: $bindings)) {
             return [];
         }
 
@@ -242,26 +242,6 @@ trait Bean
         }
 
         return $items;
-    }
-
-    /**
-     * @param string $sql
-     * @param array $bindings
-     * @return array|null
-     */
-    private static function getOne(string $sql, array $bindings = []): array|null
-    {
-        return R::getRow($sql, $bindings);
-    }
-
-    /**
-     * @param string $sql
-     * @param array $bindings
-     * @return array|null
-     */
-    private static function getAll(string $sql, array $bindings = []): array|null
-    {
-        return R::getAll($sql, $bindings);
     }
 
     /**
