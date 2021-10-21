@@ -216,11 +216,21 @@ trait Bean
         return R::findAll(type: $beanName, sql: $sql, bindings: $bindings);
     }
 
+    /**
+     * @param string $sql
+     * @param array $bindings
+     * @return array|null
+     */
     private static function getOne(string $sql, array $bindings = []): array|null
     {
         return R::getRow($sql, $bindings);
     }
 
+    /**
+     * @param string $sql
+     * @param array $bindings
+     * @return array|null
+     */
     private static function getAll(string $sql, array $bindings = []): array|null
     {
         return R::getAll($sql, $bindings);
