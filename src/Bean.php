@@ -158,7 +158,7 @@ trait Bean
      * @param string $className
      * @return string|null
      */
-    private static function getBeanName(string $className): string|null
+    public static function getBeanName(string $className): string|null
     {
         try {
             $reflectionClass = new ReflectionClass(objectOrClass: $className);
