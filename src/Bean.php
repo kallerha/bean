@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace FluencePrototype\Bean;
 
+use Exception;
 use RedBeanPHP\OODBBean;
 use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Trait Bean
@@ -83,7 +86,7 @@ trait Bean
      * @param string $className
      * @return OODBBean
      */
-    protected function findOrDispense(string $className): OODBBean
+    private function findOrDispenseHelper(string $className): OODBBean
     {
         if (!$this->id) {
             $bean = R::dispense(typeOrBeanArray: $className);
@@ -98,6 +101,129 @@ trait Bean
         $bean->updated = time();
 
         return $bean;
+    }
+
+    /**
+     * @param $className
+     * @return OODBBean|null
+     */
+    protected function findOrDispense($className): OODBBean|null
+    {
+        if (!$beanName = Bean::getBeanName(className: $className)) {
+            return null;
+        }
+
+        return $this->findOrDispenseHelper(className: $beanName);
+    }
+
+    /**
+     * @param string $className
+     * @param string $sql
+     * @param array $bindings
+     * @return OODBBean|null
+     */
+    public static function getOneAndConvertToBean(string $className, string $sql, array $bindings = []): OODBBean|null
+    {
+        if (!$beanName = Bean::getBeanName(className: $className)) {
+            return null;
+        }
+
+        if (!$row = Bean::getOne(sql: $sql, bindings: $bindings)) {
+            return null;
+        }
+
+        return R::convertToBean(type: $beanName, row: $row);
+    }
+
+    /**
+     * @param string $className
+     * @param string $sql
+     * @param array $bindings
+     * @return array|null
+     */
+    public static function getAllAndConvertToBeans(string $className, string $sql, array $bindings = []): array|null
+    {
+        if (!$beanName = Bean::getBeanName(className: $className)) {
+            return null;
+        }
+
+        if (!$rows = Bean::getAll(sql: $sql, bindings: $bindings)) {
+            return null;
+        }
+
+        return R::convertToBeans(type: $beanName, rows: $rows);
+    }
+
+    /**
+     * @param string $className
+     * @return string|null
+     */
+    private static function getBeanName(string $className): string|null
+    {
+        try {
+            $reflectionClass = new ReflectionClass(objectOrClass: $className);
+
+            if (!$reflectionClass->implementsInterface(interface: iBean::class)) {
+                throw new Exception();
+            }
+
+            return $reflectionClass->getConstant(name: 'BEAN');
+        } catch (ReflectionException | Exception) {
+            return null;
+        }
+    }
+
+    /**
+     * @param string $className
+     * @return int|null
+     */
+    public static function count(string $className): int|null
+    {
+        if (!$beanName = Bean::getBeanName(className: $className)) {
+            return null;
+        }
+
+        return R::count(type: $beanName);
+    }
+
+    /**
+     * @param string $className
+     * @param string $sql
+     * @param array $bindings
+     * @return OODBBean|null
+     */
+    public static function findOne(string $className, string $sql, array $bindings = []): OODBBean|null
+    {
+        if (!$beanName = Bean::getBeanName(className: $className)) {
+            return null;
+        }
+
+        return R::findOne(type: $beanName, sql: $sql, bindings: $bindings);
+    }
+
+    /**
+     * @param string $className
+     * @param string $sql
+     * @param array $bindings
+     * @return OODBBean|null
+     */
+    public static function findAll(string $className, string $sql, array $bindings = []): array|null
+    {
+        if (!$beanName = Bean::getBeanName(className: $className)) {
+            return null;
+        }
+
+        return R::findAll(type: $beanName, sql: $sql, bindings: $bindings);
+    }
+
+    private static function getOne(string $sql, array $bindings = []): array|null
+    {
+        return R::getRow($sql, $bindings);
+    }
+
+    private static function getAll(string $sql, array $bindings = []): array|null
+    {
+        return R::getAll($sql, $bindings);
     }
 
     /**
