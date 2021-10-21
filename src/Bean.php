@@ -122,7 +122,7 @@ trait Bean
      * @param array $bindings
      * @return OODBBean|null
      */
-    public static function getOneAndConvertToBean(string $className, string $sql, array $bindings = []): OODBBean|null
+    public static function getOneAndConvertToBean(string $className, string $sql, array $bindings = []): object|null
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return null;
@@ -132,26 +132,42 @@ trait Bean
             return null;
         }
 
-        return R::convertToBean(type: $beanName, row: $row);
+        if (!$bean = R::convertToBean(type: $beanName, row: $row)) {
+            return null;
+        }
+
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $className::fromBean(bean: $bean);
     }
 
     /**
      * @param string $className
      * @param string $sql
      * @param array $bindings
-     * @return array|null
+     * @return array<object>
      */
-    public static function getAllAndConvertToBeans(string $className, string $sql, array $bindings = []): array|null
+    public static function getAllAndConvertToBeans(string $className, string $sql, array $bindings = []): array
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
-            return null;
+            return [];
         }
 
         if (!$rows = Bean::getAll(sql: $sql, bindings: $bindings)) {
-            return null;
+            return [];
         }
 
-        return R::convertToBeans(type: $beanName, rows: $rows);
+        if (!$beans = R::convertToBeans(type: $beanName, rows: $rows)) {
+            return [];
+        }
+
+        $items = [];
+
+        foreach ($beans as $bean) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $items[] = $className::fromBean($bean);
+        }
+
+        return $items;
     }
 
     /**
@@ -175,12 +191,12 @@ trait Bean
 
     /**
      * @param string $className
-     * @return int|null
+     * @return int
      */
-    public static function count(string $className): int|null
+    public static function count(string $className): int
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
-            return null;
+            return 0;
         }
 
         return R::count(type: $beanName);
@@ -192,28 +208,40 @@ trait Bean
      * @param array $bindings
      * @return OODBBean|null
      */
-    public static function findOne(string $className, string $sql, array $bindings = []): OODBBean|null
+    public static function findOne(string $className, string $sql, array $bindings = []): object|null
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return null;
         }
 
-        return R::findOne(type: $beanName, sql: $sql, bindings: $bindings);
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $className::fromBean(R::findOne(type: $beanName, sql: $sql, bindings: $bindings));
     }
 
     /**
      * @param string $className
      * @param string $sql
      * @param array $bindings
-     * @return OODBBean|null
+     * @return array<object>
      */
-    public static function findAll(string $className, string $sql, array $bindings = []): array|null
+    public static function findAll(string $className, string $sql, array $bindings = []): array
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
-            return null;
+            return [];
         }
 
-        return R::findAll(type: $beanName, sql: $sql, bindings: $bindings);
+        if (!$beans = R::findAll(type: $beanName, sql: $sql, bindings: $bindings)) {
+            return [];
+        }
+
+        $items = [];
+
+        foreach ($beans as $bean) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $items[] = $className::fromBean($bean);
+        }
+
+        return $items;
     }
 
     /**
