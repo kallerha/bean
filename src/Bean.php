@@ -224,7 +224,7 @@ trait Bean
      * @param array $bindings
      * @return array<object>
      */
-    public static function findAll(string $className, string $sql, array $bindings = []): array
+    public static function findAll(string $className, string $sql = '', array $bindings = []): array
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return [];
