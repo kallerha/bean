@@ -264,9 +264,10 @@ trait Bean
      */
     public static function trash(iBean &$bean): void
     {
+        $toBean = $bean->toBean();
         $bean->cleanup();
 
-        R::trash($bean->toBean());
+        R::trash($toBean);
 
         $bean = null;
     }
