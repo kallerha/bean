@@ -20,4 +20,9 @@ interface iBean
      */
     public static function fromBean(null|OODBBean $bean): null|static;
 
+    /**
+     *
+     */
+    public function cleanup(): void;
+
 }
