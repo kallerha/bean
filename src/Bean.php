@@ -191,15 +191,17 @@ trait Bean
 
     /**
      * @param string $className
+     * @param string $sql
+     * @param array $bindings
      * @return int
      */
-    public static function count(string $className): int
+    public static function count(string $className, string $sql = '', array $bindings = []): int
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return 0;
         }
 
-        return R::count(type: $beanName);
+        return R::count(type: $beanName, addSQL: $sql, bindings: $bindings);
     }
 
     /**
