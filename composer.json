@@ -20,5 +20,5 @@
       "FluencePrototype\\Bean\\": "src/"
     }
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "dev"
 }
