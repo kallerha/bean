@@ -210,14 +210,18 @@ trait Bean
      * @param array $bindings
      * @return OODBBean|null
      */
-    public static function findOne(string $className, string $sql, array $bindings = []): object|null
+    public static function findOne(string $className, string $sql = null, array $bindings = []): object|null
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return null;
         }
 
+        if (!$bean = R::findOne(type: $beanName, sql: $sql, bindings: $bindings)) {
+            return null;
+        }
+
         /** @noinspection PhpUndefinedMethodInspection */
-        return $className::fromBean(R::findOne(type: $beanName, sql: $sql, bindings: $bindings));
+        return $className::fromBean($bean);
     }
 
     /**
@@ -226,7 +230,7 @@ trait Bean
      * @param array $bindings
      * @return array<object>
      */
-    public static function findAll(string $className, string $sql = '', array $bindings = []): array
+    public static function findAll(string $className, string $sql = null, array $bindings = []): array
     {
         if (!$beanName = Bean::getBeanName(className: $className)) {
             return [];
