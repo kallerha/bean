@@ -255,13 +255,18 @@ trait Bean
      */
     public static function store(iBean &$bean): void
     {
+        R::begin();
+
         try {
-            if ($id = R::store(bean: $bean->toBean())) {
-                if ($bean->getId() === null) {
-                    $bean->setId((int)$id);
-                }
+            $id = R::store(bean: $bean->toBean());
+
+            if ($bean->getId() === null) {
+                $bean->setId((int)$id);
             }
-        } catch (SQL) {
+
+            R::commit();
+        } catch (Exception | SQL) {
+            R::rollback();
         }
     }
 
