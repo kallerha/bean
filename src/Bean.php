@@ -275,7 +275,7 @@ trait Bean
      */
     public static function trash(iBean &$bean): void
     {
-        $toBean = $bean->toBean();
+        $toBean = R::findOne($bean::BEAN, '`id` = ?', [$bean->getId()]);
 
         R::trash($toBean);
 
