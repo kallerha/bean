@@ -77,9 +77,9 @@ trait Bean
     public function setBeanDetails(OODBBean $bean): void
     {
         $this->id = (int)$bean->id;
-        $this->created = DateTimeObject::createFromFormat('U', $bean->created);
-        $this->updated = $bean->updated ? DateTimeObject::createFromFormat('U', $bean->updated) : null;
-        $this->deleted = $bean->deleted ? DateTimeObject::createFromFormat('U', $bean->deleted) : null;
+        $this->created = DateTimeObject::createFromFormat('U', (string)$bean->created);
+        $this->updated = $bean->updated ? DateTimeObject::createFromFormat('U', (string)$bean->updated) : null;
+        $this->deleted = $bean->deleted ? DateTimeObject::createFromFormat('U', (string)$bean->deleted) : null;
     }
 
     /**
@@ -184,7 +184,7 @@ trait Bean
             }
 
             return $reflectionClass->getConstant(name: 'BEAN');
-        } catch (ReflectionException | Exception) {
+        } catch (ReflectionException|Exception) {
             return null;
         }
     }
@@ -265,7 +265,7 @@ trait Bean
             }
 
             R::commit();
-        } catch (Exception | SQL) {
+        } catch (Exception|SQL) {
             R::rollback();
         }
     }
