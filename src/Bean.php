@@ -91,7 +91,7 @@ trait Bean
         if (!$this->id) {
             $bean = R::dispense(typeOrBeanArray: $className);
             $bean->created = time();
-            $bean->updated = null;
+            $bean->updated = time();
             $bean->deleted = null;
 
             return $bean;
