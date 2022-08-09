@@ -68,7 +68,7 @@ trait Bean
      */
     public function setDeleted(): void
     {
-        $this->deleted = DateTimeObject::createFromFormat('U', time());
+        $this->deleted = DateTimeObject::createFromFormat('U', (string)time());
     }
 
     /**
