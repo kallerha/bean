@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">=8.0.0",
-    "gabordemooij/redbean": "5.4"
+    "gabordemooij/redbean": "v5.4.2"
   },
   "autoload": {
     "psr-4": {
